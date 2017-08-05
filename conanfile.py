@@ -21,26 +21,18 @@ class ConanFileInst(conans.ConanFile):
     default_options = "version=6.3.1-20170620"
     build_policy = "missing"
     short_paths = True
-    
-    
-    def configure(self):
-        if self.settings.os == "Macos" and self.settings.arch == "x86":
-            raise Exception("Not supported x86 for OSx")
+
 
     def get_path_filename(self):
         (path, filename) = self.version_path_filename_map[str(self.options.version)]
-        os_id = {"Macos": "mac", "Windows": "win32"}.get(str(self.settings.os))
+        os_id = {"Macos": "mac", "Windows": "win32", "Linux": "linux"}.get(str(self.settings.os))
         filename = filename % os_id
         return path, filename
-    
+
     def build(self):
         (path, filename) = self.get_path_filename()
         ext = "tar.bz2" if not self.settings.os == "Windows" else "zip"
         url = "https://developer.arm.com/-/media/Files/downloads/gnu-rm/%s/%s.%s" % (path, filename, ext)
-
-        # https://developer.arm.com/-/media/Files/downloads/gnu-rm/6-2017q2/gcc-arm-none-eabi-6-2017-q2-update-win32.zip
-        # https://developer.arm.com/-/media/Files/downloads/gnu-rm/6_1-2017q1/gcc-arm-none-eabi-6-2017-q1-update-%s-zip.zip
-
         dest_file = "file.%s" % ext
         self.output.info("Downloading: %s" % url)
         conans.tools.download(url, dest_file, verify=False)
@@ -48,8 +40,14 @@ class ConanFileInst(conans.ConanFile):
 
     def package(self):
         (_, filename) = self.get_path_filename()
-        self.copy("*", dst="", src=filename)
+        extracted_dirs = os.listdir(filename)
+        if len(extracted_dirs) == 1:
+            files_path = os.path.join(filename, extracted_dirs[0])
+        else:
+            files_path = filename
+        self.copy("*", dst="", src=files_path)
 
     def package_info(self):
         if not self.package_folder is None:
             self.env_info.path.append(os.path.join(self.package_folder, "bin"))
+
