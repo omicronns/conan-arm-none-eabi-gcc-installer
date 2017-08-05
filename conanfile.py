@@ -17,6 +17,7 @@ class ConanFileInst(conans.ConanFile):
     options = {"version": list(year_quarter.keys())}
     default_options = "version=6.3"
     build_policy = "missing"
+    short_paths = True
     
     
     def configure(self):
