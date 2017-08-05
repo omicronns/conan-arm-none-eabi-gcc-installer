@@ -10,7 +10,7 @@ class ConanFileInst(conans.ConanFile):
 
     def test(self):
         try:
-            subprocess.check_output("arm-none-eabi-gcc --version")
+            subprocess.check_output("arm-none-eabi-gcc --version".split())
         except FileNotFoundError as e:
             self.output.error("%s package test failed" % self.name)
         else:
