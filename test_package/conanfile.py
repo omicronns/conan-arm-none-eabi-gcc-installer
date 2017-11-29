@@ -3,7 +3,7 @@ import conans
 
 class ConanFileInst(conans.ConanFile):
     name = "arm-none-eabi-gcc_installer_test"
-    requires = "arm-none-eabi-gcc_installer/0.1@demo/test_package"
+    requires = "arm-none-eabi-gcc_installer/0.2@demo/test_package"
 
     def build(self):
         pass
