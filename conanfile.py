@@ -25,7 +25,7 @@ class ConanFileInst(conans.ConanFile):
     }
 
     options = {"version": list(version_path_filename_map.keys())}
-    default_options = "version=6.3.1-20170620"
+    default_options = "version=bleeding-edge-toolchain-170901"
     build_policy = "missing"
     short_paths = True
     exports = "7z.exe"
