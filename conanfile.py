@@ -30,19 +30,15 @@ class ConanFileInst(conans.ConanFile):
     short_paths = True
     exports = "7z.exe"
 
-    
+
     def configure(self):
         if "bleeding-edge-toolchain" in str(self.options.version):
             if str(self.settings.os) in ("Linux", "Macos"):
                 raise ce.ConanException("bleeding-edge-toolchain unavailible for %s" % self.settings.os)
 
     def get_path_filename(self):
-        if "bleeding-edge-toolchain" in str(self.options.version):
-            (path, filename, filename_linux) = self.version_path_filename_map[str(self.options.version)]
-            if str(self.settings.os) == "Linux":
-                filename = filename_linux
-        else:
-            (path, filename) = self.version_path_filename_map[str(self.options.version)]
+        (path, filename) = self.version_path_filename_map[str(self.options.version)]
+        if "bleeding-edge-toolchain" not in str(self.options.version):
             os_id = {"Macos": "mac", "Windows": "win32", "Linux": "linux"}.get(str(self.settings.os))
             filename = filename % os_id
         return path, filename
