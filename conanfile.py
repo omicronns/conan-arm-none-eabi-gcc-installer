@@ -7,7 +7,7 @@ import conans.errors as ce
 class ConanFileInst(conans.ConanFile):
     name = "arm-none-eabi-gcc_installer"
     description = "creates arm-none-eabi-gcc binaries package"
-    version = "0.2"
+    version = "0.3"
     license = "MIT"
     url = "https://github.com/omicronns/conan-arm-none-eabi-gcc-installer.git"
     settings = {"os": ["Windows", "Linux", "Macos"]}
@@ -16,16 +16,17 @@ class ConanFileInst(conans.ConanFile):
     bleeding_edge_common_path = "http://www.freddiechopin.info/phocadownload/bleeding-edge-toolchain"
     
     version_path_filename_map = {
-        "bleeding-edge-toolchain-170901" : (bleeding_edge_common_path, "arm-none-eabi-gcc-7.2.0-170901-win64"),
-        "bleeding-edge-toolchain-170503" : (bleeding_edge_common_path, "arm-none-eabi-gcc-7.1.0-170503-win64"),
-        "6.3.1-20170620": (arm_common_path + "/6-2017q2", "gcc-arm-none-eabi-6-2017-q2-update-%s"),
-        "6.3.1-20170215": (arm_common_path + "/6_1-2017q1", "gcc-arm-none-eabi-6-2017-q1-update-%s-zip"),
-        "6.2.1-20161205": (arm_common_path + "/6-2016q4", "gcc-arm-none-eabi-6_2-2016q4-20161216-%s-zip"),
-        "5.4.1-20160919": (arm_common_path + "/5_4-2016q3", "gcc-arm-none-eabi-5_4-2016q3-20160926-%s-zip"),
+        "bleeding-7.2.0" : (bleeding_edge_common_path, "arm-none-eabi-gcc-7.2.0-170901-win64"),
+        "bleeding-7.1.0" : (bleeding_edge_common_path, "arm-none-eabi-gcc-7.1.0-170503-win64"),
+        "arm-7.2.0": (arm_common_path + "/7-2017q4", "gcc-arm-none-eabi-7-2017-q4-major-%s"),
+        "arm-6.3.1-1": (arm_common_path + "/6-2017q2", "gcc-arm-none-eabi-6-2017-q2-update-%s"),
+        "arm-6.3.1": (arm_common_path + "/6_1-2017q1", "gcc-arm-none-eabi-6-2017-q1-update-%s-zip"),
+        "arm-6.2.1": (arm_common_path + "/6-2016q4", "gcc-arm-none-eabi-6_2-2016q4-20161216-%s-zip"),
+        "arm-5.4.1": (arm_common_path + "/5_4-2016q3", "gcc-arm-none-eabi-5_4-2016q3-20160926-%s-zip"),
     }
 
     options = {"version": list(version_path_filename_map.keys())}
-    default_options = "version=bleeding-edge-toolchain-170901"
+    default_options = "version=arm-7.2.0"
     build_policy = "missing"
     short_paths = True
     exports = "7z.exe"
